@@ -136,7 +136,7 @@ parse_git_branch() {
 function git_color {
   local git_status="$(git status 2> /dev/null)"
 
-  if [[ $git_status =~ "working directory clean" ]]; then
+  if [[ $git_status =~ "Your branch is up to date" ]]; then
     echo -e $COLOR_GREEN
   elif [[ $git_status =~ "Changes not staged for commit" ]]; then
     echo -e $COLOR_RED
