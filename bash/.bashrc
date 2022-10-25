@@ -121,9 +121,30 @@ if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
     source $HOME/.bash-git-prompt/gitprompt.sh
 fi
 
+COLOR_RED="\033[0;31m"
+COLOR_YELLOW="\033[0;33m"
+COLOR_GREEN="\033[0;32m"
+COLOR_OCHRE="\033[38;5;95m"
+COLOR_BLUE="\033[0;34m"
+COLOR_WHITE="\033[0;37m"
+COLOR_RESET="\033[0m"
 
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+function git_color {
+  local git_status="$(git status 2> /dev/null)"
+
+  if [[ ! $git_status =~ "working directory clean" ]]; then
+    echo -e $COLOR_RED
+  elif [[ $git_status =~ "Your branch is ahead of" ]]; then
+    echo -e $COLOR_YELLOW
+  elif [[ $git_status =~ "nothing to commit" ]]; then
+    echo -e $COLOR_GREEN
+  else
+    echo -e $COLOR_OCHRE
+  fi
 }
 
 PROMPT_COMMAND=__prompt_command    # Function to generate PS1 after CMDs
@@ -152,5 +173,5 @@ __prompt_command() {
         branch_prompt=$git_branch" "
     fi
 
-    PS1+="${BBlu}\u${RCol}@${BBlu}\h [${Pur}\W]${BYel}${branch_prompt}$ ${RCol}"
+    PS1+="${BBlu}\u${RCol}@${BBlu}\h [${Pur}\W]$(git_color)${branch_prompt}${COLOR_GREEN}$ ${RCol}"
 }
