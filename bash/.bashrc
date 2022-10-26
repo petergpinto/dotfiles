@@ -178,11 +178,17 @@ __prompt_command() {
         PS1+="${Gre}✅${RCol} "
     fi
 
+    if [ $UID -eq 0 ]; then
+        PS1+="${Red}\u${RCol}"
+    else
+        PS1+="${BBlu}\u${RCol}"
+    fi
+
     local git_branch=$(parse_git_branch)
     local branch_prompt=""
     if [ -n $git_branch ]; then
         branch_prompt=$git_branch
     fi
 
-    PS1+="${BBlu}\u${RCol}@${BBlu}\h [${Pur}\W]$(git_color)${branch_prompt}${COLOR_GREEN}$ ${RCol}"
+    PS1+="@${BBlu}\h [${Pur}\W]$(git_color)${branch_prompt}${COLOR_GREEN}$ ${RCol}"
 }
