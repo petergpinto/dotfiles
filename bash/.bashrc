@@ -190,5 +190,5 @@ __prompt_command() {
         branch_prompt=$git_branch
     fi
 
-    PS1+="@${BBlu}\h [${Pur}\W]$(git_color)${branch_prompt}${COLOR_GREEN}$ ${RCol}"
+    PS1+="@${BBlu}\h ${Pur}[\w]$(git_color)${branch_prompt}${COLOR_GREEN}$ ${RCol}"
 }
